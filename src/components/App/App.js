@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import Description from '../Description/Description';
 
 class App extends Component {
   render() {
     return (
       <div>
-        <header>
-        </header>
+        <h1>Affine Stars</h1>
+        <Description />
       </div>
     );
   }
