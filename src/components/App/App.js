@@ -3,18 +3,23 @@ import Description from '../Description/Description';
 
 class App extends Component {
   state = {
-    name: '',
-    diameter: '',
+    newStar: {
+      name: '',
+      diameter: '',
+    }
   }
 
-handleChangeFor = (propertyName) => (event) => {
-  console.log('handleChange is running');
-  this.setState({
-    [propertyName]: event.target.value,
-  })
-}
+  handleChangeFor = (propertyName) => (event) => {
+    console.log('handleChange is running');
+    this.setState({
+      newStar: {
+        ...this.state.newStar,
+        [propertyName]: event.target.value,
+      },
+    });
+  }
 
-//function above does the same as the two below
+  //function above does the same as the two below
 
   // handleNameChange = (event) => {
   //   this.setState({
@@ -30,8 +35,15 @@ handleChangeFor = (propertyName) => (event) => {
   //   })
   // }
 
-  handleButtonClick = (event) => {
+  handleSubmit = (event) => {
+    event.preventDefault();
     console.log('button clicked');
+    this.setState({
+      ...this.state.newStar,
+      name: '',
+      diameter: '',
+    })
+    console.log(this.state.newStar);
   }
 
 
@@ -39,20 +51,22 @@ handleChangeFor = (propertyName) => (event) => {
     return (
       <div>
         <Description />
-        <h3>{this.state.name}</h3><h3>{this.state.diameter}</h3>
-        <input
-          placeholder="Star Name"
-          value={this.state.name}
-          type="text"
-          onChange={this.handleChangeFor('name')}
-        />
-        <input
-          placeholder="Diameter"
-          value={this.state.diameter}
-          type="number"
-          onChange={this.handleChangeFor('diameter')}
-        />
-        <button onClick={this.handleButtonClick}>Add Star</button>
+        <h3>{this.state.newStar.name} is {this.state.newStar.diameter} km in diameter</h3>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            placeholder="Star Name"
+            value={this.state.newStar.name}
+            type="text"
+            onChange={this.handleChangeFor('name')}
+          />
+          <input
+            placeholder="Diameter"
+            value={this.state.newStar.diameter}
+            type="number"
+            onChange={this.handleChangeFor('diameter')}
+          />
+          <button type="submit">Add Star</button>
+        </form>
       </div>
     );
   }
