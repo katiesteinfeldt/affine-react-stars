@@ -2,24 +2,35 @@ import React, { Component } from 'react';
 import Description from '../Description/Description';
 import StarList from '../StarList/StarList';
 import StarForm from '../StarForm/StarForm';
+import axios from 'axios';
 
 class App extends Component {
   state = {
     starList: [
-      {
-        name: 'Antares',
-        diameter: 123,
-      },
-      {
-        name: 'Betelgeuse',
-        diameter: 423,
-      },
-      {
-        name: 'Rigel',
-        diameter: 456,
-      },
     ],
   }
+
+  //ComponentDidMount
+  componentDidMount() {
+    console.log('in component did mount');
+    this.getStars();
+  }
+
+  getStars = () => {
+    //make call to server using axios
+    axios({
+      method: 'GET',
+      url: '/stars',
+    }).then((response) => {
+      this.setState({
+        starList: response.data
+      });
+    }).catch((error) => {
+      alert('could not get stars');
+      console.log('could not get stars', error);
+    })
+  }
+
 
   // handleSubmit = (newStar) => (event) => {
   //   event.preventDefault();
@@ -34,10 +45,21 @@ class App extends Component {
   // }
 
   addStar = (newStar) => {
-    console.log('button clicked');
-    this.setState({
-      starList: [...this.state.starList, newStar],
+    axios({
+      method: 'POST',
+      url: '/stars',
+      data: newStar,
+    }).then(() => {
+      //get stars list
+      this.getStars();
+    }).catch((error) => {
+      alert('could not POST stars');
+      console.log('could not POST stars', error);
     })
+    // console.log('button clicked');
+    // this.setState({
+    //   starList: [...this.state.starList, newStar],
+    // })
   }
 
 
