@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
 import Description from '../Description/Description';
+import StarList from '../StarList/StarList';
 
 class App extends Component {
   state = {
     newStar: {
       name: '',
       diameter: '',
-    }
+    },
+    starList: [
+      {
+        name: 'Antares',
+        diameter: 123,
+      },
+      {
+        name: 'Betelgeuse',
+        diameter: 423,
+      },
+      {
+        name: 'Rigel',
+        diameter: 456,
+      },
+    ],
   }
 
   handleChangeFor = (propertyName) => (event) => {
@@ -39,15 +54,23 @@ class App extends Component {
     event.preventDefault();
     console.log('button clicked');
     this.setState({
-      ...this.state.newStar,
+      newStar: {
       name: '',
       diameter: '',
+      },
+      starList: [...this.state.starList, this.state.newStar],
     })
-    console.log(this.state.newStar);
   }
 
-
   render() {
+    
+    // for (let i = 0; i < this.state.starList.length; i++) {
+    //   const star = this.state.starList[i];
+    // starsForShow.push(<li>{star}</li>);
+    // }
+
+   // const starsForShow = this.state.starList.map(star => <li>{star}</li>);
+
     return (
       <div>
         <Description />
@@ -67,6 +90,10 @@ class App extends Component {
           />
           <button type="submit">Add Star</button>
         </form>
+       
+       <StarList list={this.state.starList}/>
+  {/* list is a keyword describing what the prop is */}
+
       </div>
     );
   }
